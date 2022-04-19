@@ -142,7 +142,7 @@ namespace MRK.UI
             _screens.Clear();
             _layouts.Clear();
 
-            foreach (var layout in ContainerManager.Instance.GetLayouts())
+            foreach (var layout in ContainerManager.GetLayouts())
             {
 #if UNITY_EDITOR
                 layout.InitEditorStorage();
@@ -161,6 +161,8 @@ namespace MRK.UI
                     layout.Initialize();
                 }
             }
+
+            ContainerManager.UpdateLayersState();
         }
 
         public void AdjustLayoutToLayer(Layout layout)

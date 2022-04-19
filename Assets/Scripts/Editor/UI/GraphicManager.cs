@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UI.ProceduralImage;
 
 namespace MRK.UI
 {
@@ -24,7 +25,7 @@ namespace MRK.UI
 
         private GameObject GetTemplate(GraphicType type)
         {
-            var res = Resources.Load<GameObject>($"UI/Templates/{type}");
+            var res = Resources.Load<GameObject>($"UI/Templates/Internal/{type}");
             return res != null ? Object.Instantiate(res) : null;
         }
 
@@ -57,6 +58,14 @@ namespace MRK.UI
 
                 case GraphicType.InputField:
                     graphic = obj.GetComponent<Image>();
+                    break;
+
+                case GraphicType.ProceduralImage:
+                    graphic = obj.AddComponent<ProceduralImage>();
+                    break;
+
+                case GraphicType.MaskedImage:
+                    graphic = obj.GetComponent<ProceduralImage>();
                     break;
 
                 default:

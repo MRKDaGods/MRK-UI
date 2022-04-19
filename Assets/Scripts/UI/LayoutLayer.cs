@@ -12,6 +12,7 @@ namespace MRK.UI
         private Transform _mainLayer;
         private Transform _specializedLayer; //specialized layers are for layouts that require constant updating
         private Layout[] _layouts;
+        private bool _dirty;
 
         public Transform Root
         {
@@ -123,11 +124,13 @@ namespace MRK.UI
         {
             layout.transform.parent = isSpecialized ? _specializedLayer : _mainLayer;
             TransformUtility.ResetLocals(layout.transform);
+
+            SetDirty();
         }
 
         private void CheckLayouts()
         {
-            if (_layouts == null)
+            if (_layouts == null || _dirty)
             {
                 _layouts = Root.GetComponentsInChildren<Layout>(true);
             }
@@ -153,6 +156,43 @@ namespace MRK.UI
             {
                 layout.gameObject.SetActive(true);
             }
+        }
+
+        public void SetDirty()
+        {
+            _dirty = true;
+        }
+
+        public void UpdateState()
+        {
+            CheckLayouts();
+
+            bool anyActive = false;
+            bool recursive = false;
+            foreach (var layout in _layouts)
+            {
+                if (layout == null)
+                {
+                    //set dirty
+                    SetDirty();
+                    recursive = true;
+                    break;
+                }
+
+                if (layout.gameObject.activeSelf)
+                {
+                    anyActive = true;
+                    break;
+                }
+            }
+
+            if (recursive)
+            {
+                //re check after dirty
+                UpdateState();
+            }
+
+            Root.gameObject.SetActive(anyActive);
         }
     }
 }

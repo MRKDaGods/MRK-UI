@@ -54,6 +54,8 @@ namespace MRK.UI
             {
                 if (_layer != value)
                 {
+                    LayoutManager.ContainerManager.MarkLayerDirty(_layer);
+
                     _layer = value;
                     LayoutManager.AdjustLayoutToLayer(this);
                 }
@@ -130,7 +132,8 @@ namespace MRK.UI
             OnLayoutInitialize(new ViewElementInitializer(this));
 
             //disable
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
+            SetVisible(false);
         }
 
 #if UNITY_EDITOR
@@ -245,6 +248,7 @@ namespace MRK.UI
             }
 
             gameObject.SetActive(visible);
+            LayoutManager.ContainerManager.UpdateLayerState(Layer);
         }
 
         private void Update()

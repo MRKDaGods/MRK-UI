@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using MRK.Threading;
 
 namespace MRK.UI
 {
@@ -163,6 +164,33 @@ namespace MRK.UI
                     layer.EnableAllLayouts();
                 }
             }
+        }
+
+        public void MarkLayerDirty(int idx)
+        {
+            if (idx >= _layoutLayers.Count)
+            {
+                Debug.LogError("Invalid layer index idx=" + idx);
+                return;
+            }
+
+            _layoutLayers[idx].SetDirty();
+        }
+
+        public void UpdateLayerState(int idx)
+        {
+            if (idx >= _layoutLayers.Count)
+            {
+                Debug.LogError("Invalid layer index idx=" + idx);
+                return;
+            }
+
+            _layoutLayers[idx].UpdateState();
+        }
+
+        public void UpdateLayersState()
+        {
+            _layoutLayers.ForEach(layer => layer.UpdateState());
         }
     }
 }

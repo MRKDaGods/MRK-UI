@@ -8,6 +8,8 @@
         Text,
         Group,
         InputField,
+        ProceduralImage,
+        MaskedImage,
 
         MAX
     }

@@ -181,7 +181,7 @@ namespace MRK.UI
             {
                 if (_viewPrefab == null)
                 {
-                    _viewPrefab = Resources.Load<GameObject>("UI/Templates/View");
+                    _viewPrefab = Resources.Load<GameObject>("UI/Templates/Internal/View");
                 }
 
                 var viewObj = UnityEngine.Object.Instantiate(_viewPrefab);
@@ -232,12 +232,12 @@ namespace MRK.UI
 
             if (_scrollVertical == null)
             {
-                _scrollVertical = _viewRoot.Find("Scrollbar Vertical").GetComponent<Scrollbar>();
+                _scrollVertical = _viewRoot.Find("Scrollbar Vertical")?.GetComponent<Scrollbar>();
             }
 
             if (_scrollHorizontal == null)
             {
-                _scrollHorizontal = _viewRoot.Find("Scrollbar Horizontal").GetComponent<Scrollbar>();
+                _scrollHorizontal = _viewRoot.Find("Scrollbar Horizontal")?.GetComponent<Scrollbar>();
             }
         }
 
